@@ -1,0 +1,15 @@
+spring:
+  datasource:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/ecsite-fuka-new
+      username: postgres
+      password: postgres
+
+  mail:
+   username: fuuka.pyop@gmail.com
+   password: fnjktpmirrczitle
+   host: smtp.gmail.com
+   port: 587
+   properties:
+     mail.smtp.auth: true
+     mail.smtp.starttls.enable: true

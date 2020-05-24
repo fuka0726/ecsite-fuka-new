@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.grid-list{
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap:50px;
+        justify-content:center;
+}
+
+.grid-item{
+        justify-self:center;
+}
+
+.pagination {
+  justify-content: center;
+}
