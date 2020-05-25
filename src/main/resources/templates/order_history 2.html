@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>注文履歴</title>
+<link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"
+	rel="stylesheet">
+<link href="../static/css/piza.css" th:href="@{/css/piza.css}"
+	rel="stylesheet">
+</head>
+<body>
+ <div class="container">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="item_list.html" th:href="@{/}"> <!-- 企業ロゴ --> <img
+						alt="main log" src="../static/img_pizza/header_logo.png" th:src="@{img/header_logo.png}" height="35">
+					</a>
+					</div>
+					
+					<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<p class="navbar-text navbar-right">
+						<a href="cart_list.html" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
+						<a href="order_history.html" class="navbar-link" th:href="@{/show-order-history}">注文履歴</a>&nbsp;&nbsp;
+						<a href="login.html" class="navbar-link">ログイン</a>&nbsp;&nbsp;
+						<a href="item_list.html" class="navbar-link">ログアウト</a>
+					</p>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+		
+		<!-- 注文履歴を表示する -->
+		<div class="row">
+			<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				<h3 class="text-center">注文履歴</h3>
+				<div th:if="${message}">
+					<h3 th:text="${message}" class="text-center">注文履歴がありません</h3>
+				</div>
+				
+				<!-- 1つ1つの注文履歴 -->
+				<div th:each="order:${orderList}">
+					<p>
+						注文日：<span th:text="${order.orderDate}">5月7日</span>
+					</p>
+					<p>
+						注文番号：<span th:text="${order.orderNumber}"></span>
+					</p>
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<th>
+									<div class="text-center">商品名</div>					
+								</th>
+								<th>
+									<div class="text-center">サイズ、価格(税抜)、数量</div>
+								</th>
+								<th>
+									<div class="text-center">トッピング、価格(税抜)</div>
+								</th>
+								<th>
+									<div class="text-center">小計</div>
+								</th>
+							</tr>
+							<tr th:each="orderItem:${order.orderItemList}">
+								<td>
+									<div class="center">    <!-- th:src="@{/img/}+${orderItem.Item.imagePath}"  画像の表示方法こっちでも可能 -->
+										<img  th:src="@{'/img/'+ ${orderItem.Item.imagePath}}" 
+											class="img-responsive img-rounded" width="100" height="300"><br>
+										<span th:text="${orderItem.item.name}">コーヒー</span>
+									</div>
+								</td>
+								<td>
+									<div class="text-center">
+										<span class="price">&nbsp;<span th:text="${orderItem.size}">M</span></span>&nbsp;&nbsp;
+										<span th:if="${orderItem.size}=='M'"
+										      th:text="${#numbers.formatInteger(orderItem.item.priceM, 2, 'COMMA') + '円'}">2,380円</span>&nbsp;&nbsp;
+										<span  th:if="${orderItem.size}=='L'"
+												th:text="${#numbers.formatInteger(orderItem.item.priceL, 2, 'COMMA') + '円'}">2,380円</span>&nbsp;&nbsp;
+										<span th:text="${orderItem.quantity}">1</span>個
+									</div>
+								</td>
+								<td>
+									<ul th:each="orderTopping:${orderItem.orderToppingList}">
+										<li><span th:text="${orderTopping.topping.name}"></span>
+										<span th:if="${orderItem.size} == 'M'"
+										th:text="${#numbers.formatInteger(orderTopping.topping.priceM, 2, 'COMMA') + '円'}">200</span>
+										<span th:if="${orderItem.size} == 'L'"
+										th:text="${#numbers.formatInteger(orderTopping.topping.priceL, 2, 'COMMA') + '円'}">300</span>
+										</li>
+									</ul>
+								</td>
+								<td>
+									<div class="text-center">
+										<span
+											th:text="${#numbers.formatInteger(orderItem.getSubTotal(), 1, 'COMMA') + '円'}">3,280円</span>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
