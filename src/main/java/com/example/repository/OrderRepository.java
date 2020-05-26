@@ -199,7 +199,7 @@ public class OrderRepository {
 	 */
 	public List<Order> findAllOrder(){
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT id, user_id, status, total_price, order_number,　destination_name ");
+		sql.append("SELECT id, user_id, status, total_price, order_date, order_number, destination_name, destination_email, destination_zipcode, destination_address, destination_tel, delivery_time, payment_method ");
 		sql.append("FROM orders WHERE status <> 0  ORDER BY order_date");
 		List<Order> orderList = template.query(sql.toString(), ORDER_ROW_MAPPER);
 		if (orderList.size() == 0) {

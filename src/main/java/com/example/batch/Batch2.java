@@ -35,16 +35,27 @@ public class Batch2 implements CommandLineRunner {
 		
 		List<Order> orderList = adminOrderListService.getOrderListForAdmin();
 		StringBuilder outputStringBuilder = new StringBuilder();
-		outputStringBuilder.append("注文番号,日付,利用者名,ステータス,合計(税込)　\r\n");
+		outputStringBuilder.append("注文番号,日付,利用者名,ステータス,合計(税込),メール,郵便番号,住所,電話,配達日時,支払い方法　\r\n");
 		
 		for (Order order : orderList) {
 			String orderNumber = order.getOrderNumber();
 			String Date = String.valueOf(order.getOrderDate());
 			String name = order.getDestinationName();
 			String status = String.valueOf(order.getStatus());
-			String totalPrice = String.valueOf(order.getCalcTotalPrice());
+			String totalPrice = String.valueOf(order.getTotalPrice());
+			String email = order.getDestinationEmail();
+			String zipcode = order.getDestinationZipcode();
+			String address = order.getDestinationAddress();
+			String tel = order.getDestinationTel();
+			String deliveryTime = String.valueOf(order.getDeliveryTime());
+			String paymentMethod = String.valueOf(order.getPaymentMethod());
+			
 			//CSVファイル内部に記載する形式で文字列を設定
-			outputStringBuilder.append(orderNumber + "," + Date + "," + name + "," + status + "," + totalPrice + ",\r\n");
+			outputStringBuilder.append(orderNumber + "," + Date + "," + name + "," + status + "," + totalPrice + ",");
+			outputStringBuilder.append(email + "," + zipcode + "," + address + "," + tel + "," + deliveryTime + "," + paymentMethod +  ",\r\n");
+		
+		
+		
 		}
 		
 		// CSVファイルに書き込み

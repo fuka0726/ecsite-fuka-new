@@ -4,26 +4,35 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 /**
  * 注文情報を管理するエンティティクラス.
  * 
  * @author fuka
  *
  */
+//@JsonPropertyOrder({"注文番号","注文日","利用者名","ステータス","合計金額"})
 public class Order {
 	/** ID */
 	private Integer id;
 	/** ユーザーID */
 	private Integer userId;
 	/** 注文状態 */
+//	@JsonProperty("ステータス")
 	private Integer status;
 	/** 合計金額 */
+//	@JsonProperty("合計金額")
 	private Integer totalPrice;
 	/** 注文日 */
+//	@JsonProperty("注文日")
 	private Date orderDate;
 	/** 注文番号 */
+//	@JsonProperty("注文番号")
 	private String orderNumber;
 	/** 宛先氏名 */
+//	@JsonProperty("利用者名")
 	private String destinationName;
 	/** 宛先Eメール */
 	private String destinationEmail;
