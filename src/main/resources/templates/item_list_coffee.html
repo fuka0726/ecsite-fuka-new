@@ -50,6 +50,19 @@ $( function() {
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
+						<!-- 管理者にのみ表示 -->
+						<span sec:authorize="hasRole('ROLE_ADMIN')">
+							管理者さん、こんにちは！&nbsp;&nbsp;
+						</span>
+						<!-- ユーザーに表示 -->
+						<span sec:authorize="hasRole('ROLE_USER')">
+							<span sec:authentication="principal.user.name">名前</span>さん、こんにちは！
+						</span>
+						<!-- 非ログインユーザーに表示 -->
+						<span sec:authorize="!isAuthenticated()">
+							ゲストさん、こんにちは！
+						</span>
+				
 						<a href="cart_list.html" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
 						<a href="order_history.html" class="navbar-link" th:href="@{/show-order-history}">注文履歴</a>&nbsp;&nbsp;
 						<a href="login.html" class="navbar-link">ログイン</a>&nbsp;&nbsp;

@@ -63,6 +63,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- thymeleafとspringsecurityの連携 -->
+		<dependency>
+    		<groupId>org.thymeleaf.extras</groupId>
+   			 <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+		</dependency>
 		
 		<!-- メール送信機能 -->
 		<dependency>

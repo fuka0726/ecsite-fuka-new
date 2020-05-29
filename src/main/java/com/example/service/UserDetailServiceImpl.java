@@ -32,8 +32,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("そのEmailは登録されていません");
 		}
+		//権限付与
 		Collection <GrantedAuthority> authorityList =  new ArrayList<>();
-		authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+		if (user.getIsAdmin()) {
+			authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		} else if (!user.getIsAdmin()) {
+			authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+		}
 		return new LoginUser(user, authorityList); //新しいエンティティを返す.
 	}
 	

@@ -37,6 +37,7 @@ public class UserRepository {
 		user.setZipcode(rs.getString("zipcode"));
 		user.setAddress(rs.getString("address"));
 		user.setTelephone(rs.getString("telephone"));
+		user.setIsAdmin(rs.getBoolean("isadmin"));
 		return user;
 	};
 	
@@ -49,7 +50,7 @@ public class UserRepository {
 	 */
 	public User findByMailAndPassword(String email, String password) {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email).addValue("password", password);
-		String sql = "select id, name , email , password , zipcode, address, telephone from users where email= :email and password= :password";
+		String sql = "select id, name , email , password , zipcode, address, telephone, isadmin from users where email= :email and password= :password";
 	
 		try{
 			User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
@@ -66,7 +67,7 @@ public class UserRepository {
 		 * @return　検索結果がなければnullを、あればそのユーザー情報を返します
 		 */
 		public User findByMail(String email) {
-			String sql = "SELECT id,name,email,password,zipcode,address,telephone FROM users where email = :email;";
+			String sql = "SELECT id,name,email,password,zipcode,address,telephone,isadmin FROM users where email = :email;";
 			SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
 			List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
 			if (userList.size() == 0) {
@@ -80,7 +81,7 @@ public class UserRepository {
 		 * @param user ユーザ情報
 		 */
 		public void insert(User user) {
-			String sql = "INSERT INTO users (name,email,password,zipcode,address,telephone) VALUES(:name, :email, :password, :zipcode, :address, :telephone) ;";
+			String sql = "INSERT INTO users (name,email,password,zipcode,address,telephone, isadmin) VALUES(:name, :email, :password, :zipcode, :address, :telephone, :isAdmin) ;";
 			SqlParameterSource param = new BeanPropertySqlParameterSource(user);
 			template.update(sql, param);
 			
@@ -98,7 +99,7 @@ public class UserRepository {
 
 		public User findByUserId(Integer userId) {
 			SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
-			String sql = "select id, name , email , password , zipcode, address, telephone from users where id= :userId";
+			String sql = "select id, name , email , password , zipcode, address, telephone, isadmin from users where id= :userId";
 
 			User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
 			return user;

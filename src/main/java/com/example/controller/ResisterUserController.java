@@ -39,6 +39,17 @@ public class ResisterUserController {
 		return "register_user";
 	}
 	
+	/**
+	 * 管理者登録画面に遷移します.
+	 * @return 管理者登録画面
+	 */
+	@RequestMapping("/admin")
+	public String showRegisterAdmin() {
+		return "register_admin";
+	}
+	
+	
+	
 	
 	/**
 	 * 入力した値をフォームで受け取り、そこからユーザードメインを作成してDBに新規作成する.
@@ -68,10 +79,16 @@ public class ResisterUserController {
 		//フォームからドメインにプロパティ値をコピー
 		User user = new User();
 		BeanUtils.copyProperties(form, user);
+		
+		
+		//管理者権限の付与
+		if ("1".equals(form.getIsAdminNumber())) {
+			user.setIsAdmin(true);
+		}else {
+			user.setIsAdmin(false);
+		}
+		
 		service.insert(user);
-		
-		//管理者権限の付与)
-		
 		return "redirect:/tologin";
 		
 

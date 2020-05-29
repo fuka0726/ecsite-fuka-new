@@ -9,18 +9,21 @@ create table users (
  , zipcode varchar(7) not null
  , address varchar(200) not null
  , telephone varchar(15) not null
+ , isadmin boolean default false not null
 ) ;
 
---altertable
+--altertable 例
 --role_number 1の場合  ふつうのユーザー
 --role_number 2の場合  管理者のユーザー
---ALTER TABLE users ADD COLUMN role_number Integer not null
 
+ALTER TABLE users ADD COLUMN isAdminNumber Integer not null
+
+ALTER TABLE users ADD COLUMN isAdmin boolean not null
 
 
 
 --ユーザー登録(pass:morimori)
-insert into users(name, email, password, zipcode, address, telephone) values('テストユーザ', 'test@test.co.jp', 'a232fe3fd81a175aa15541dc2051fe2cb003cdae810371104fbfc100eb34cd6f','1111111', 'テスト住所', 'テスト電話番号');
+insert into users(name, email, password, zipcode, address, telephone, isadmin ) values('テストユーザ', 'test@test.co.jp', 'a232fe3fd81a175aa15541dc2051fe2cb003cdae810371104fbfc100eb34cd6f','1111111', 'テスト住所', 'テスト電話番号', 'f');
 
 -- 商品
 drop table if exists items cascade;

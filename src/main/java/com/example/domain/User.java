@@ -25,6 +25,7 @@ public class User {
 	/** 管理者権限 */
 	/** trueなら管理者権限あり、falseなら権限なし */
 	private Boolean isAdmin;
+	
 	public Integer getId() {
 		return id;
 	}

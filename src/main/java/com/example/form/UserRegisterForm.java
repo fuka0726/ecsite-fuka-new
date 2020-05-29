@@ -35,8 +35,11 @@ public class UserRegisterForm {
 	
 	/**  管理者権限 */
 	private boolean isAdmin;
+	
 	/**  管理者権限（登録フォーム用） */
 	private String isAdminNumber;
+	
+	
 	public String getName() {
 		return name;
 	}
