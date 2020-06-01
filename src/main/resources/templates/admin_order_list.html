@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>注文履歴</title>
+<link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"
+	rel="stylesheet">
+<link href="../static/css/piza.css" th:href="@{/css/piza.css}"
+	rel="stylesheet">
+</head>
+<body>
+ <div class="container">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="item_list.html" th:href="@{/}"> <!-- 企業ロゴ --> <img
+						alt="main log" src="../static/img_pizza/header_logo.png" th:src="@{img/header_logo.png}" height="35">
+					</a>
+					</div>
+					
+					<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<p class="navbar-text navbar-right">
+						<!-- 管理者のみに表示 -->
+						<span sec:authorize="hasRole('ROLE_ADMIN')">
+							管理者さん、こんにちは！&nbsp;&nbsp;
+						</span>
+							<!-- ユーザーに表示 -->
+						<span sec:authorize="hasRole('ROLE_USER')">
+							<span sec:authentication="principal.user.name"></span>さん、こんにちは！&nbsp;&nbsp;
+						</span>
+							<!-- 非ログインユーザーに表示 -->
+						<span sec:authorize="!isAuthenticated()">
+							こんにちは、ゲストさん！&nbsp;&nbsp;
+						</span>						
+						<a href="cart_list.html" class="navbar-link" th:href=@{/show-cart}>ショッピングカート</a>&nbsp;&nbsp;
+						<span sec:authorize="hasRole('ROLE_USER')"><a href="order_history.html" class="navbar-link" th:href="@{/show-order-history}">注文履歴</a>&nbsp;&nbsp;</span>
+						<span sec:authorize="hasRole('ROLE_ADMIN')"><a href="order_history.html" class="navbar-link" th:href="@{/admin-order-list}">注文一覧</a>&nbsp;&nbsp;</span>
+						<span sec:authorize="!isAuthenticated()"><a href="login.html" th:href="@{/tologin}" class="navbar-link">ログイン</a>&nbsp;&nbsp;</span>
+ 						<span sec:authorize="hasRole('ROLE_USER')"><a href="item_list.html" th:href="@{/logout}" class="navbar-link">ログアウト</a></span>
+ 						<span sec:authorize="hasRole('ROLE_ADMIN')"><a href="item_list.html" th:href="@{/logout}" class="navbar-link">ログアウト</a></span>
+					</p>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+		
+		<!-- 注文履歴を表示する -->
+		<div class="row">
+			<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				<h3 class="text-center">注文一覧</h3>
+				<div th:if="${message}">
+					<h3 th:text="${message}" class="text-center">注文履歴がありません</h3>
+				</div>
+				
+				<form method="GET" th:action="@{/download_csv}" >
+					<input type="hidden" name="filename">
+					<button type="submit">CSVファイルダウンロード</button>
+				</form>
+				
+				
+				
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<th>
+									<div class="text-center">注文番号</div>					
+								</th>
+								<th>
+									<div class="text-center">日付</div>
+								</th>
+								<th>
+									<div class="text-center">利用者名</div>
+								</th>
+								<th>
+									<div class="text-center">ステータス</div>
+								</th>
+								<th>
+									<div class="text-center">総計(税込)</div>
+								</th>
+							</tr>
+							<tr th:each="order:${orderList}">
+								<td>
+									<div class="center">    
+										<span th:text="${order.orderNumber}">2020010100001</span>
+									</div>
+								</td>
+								<td>
+									<div class="text-center">
+										<span th:text="${order.orderDate}">2020/01/01</span>
+									</div>
+								</td>
+								<td>
+									<div class="text-center">
+										<span th:text="${order.destinationName}">帝国民</span>
+									</div>
+								</td>
+								<td>
+									<div class="text-center">
+										<span th:text="${order.stringStatus}">発送済</span>
+									</div>
+								</td>	
+								<td>
+									<div class="text-center">
+										<span th:text="${#numbers.formatInteger(order.totalPrice, 1, 'COMMA') + '円'}">3,280円</span>
+									</div>
+								</td>	
+								
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+</body>
+</html>

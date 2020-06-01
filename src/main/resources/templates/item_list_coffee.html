@@ -62,11 +62,12 @@ $( function() {
 						<span sec:authorize="!isAuthenticated()">
 							ゲストさん、こんにちは！
 						</span>
-				
-						<a href="cart_list.html" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-						<a href="order_history.html" class="navbar-link" th:href="@{/show-order-history}">注文履歴</a>&nbsp;&nbsp;
-						<a href="login.html" class="navbar-link">ログイン</a>&nbsp;&nbsp;
-						<a href="item_list.html" class="navbar-link">ログアウト</a>
+						<a href="cart_list.html" class="navbar-link" th:href=@{/show-cart}>ショッピングカート</a>&nbsp;&nbsp;
+						<span sec:authorize="hasRole('ROLE_USER')"><a href="order_history.html" class="navbar-link" th:href="@{/show-order-history}">注文履歴</a>&nbsp;&nbsp;</span>
+						<span sec:authorize="hasRole('ROLE_ADMIN')"><a href="order_history.html" class="navbar-link" th:href="@{/admin_order_list}">注文一覧</a>&nbsp;&nbsp;</span>
+						<span sec:authorize="!isAuthenticated()"><a href="login.html" th:href="@{/tologin}" class="navbar-link">ログイン</a>&nbsp;&nbsp;</span>
+ 						<span sec:authorize="hasRole('ROLE_USER')"><a href="item_list.html" th:href="@{/tologin}" class="navbar-link">ログアウト</a></span>
+ 						<span sec:authorize="hasRole('ROLE_ADMIN')"><a href="item_list.html" th:href="@{/tologin}" class="navbar-link">ログアウト</a></span>
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->

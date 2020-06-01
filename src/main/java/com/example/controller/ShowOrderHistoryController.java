@@ -37,7 +37,7 @@ public class ShowOrderHistoryController {
 		//管理者ユーザーのログインIDを渡す
 		User user = loginUser.getUser();
 		List<Order> orderList = service.showOrderHistory(user.getId());
-		if (orderList.size() == 0) {
+		if (orderList.size() == 0 ) {
 			model.addAttribute("message", "注文履歴がありません");
 		}
 		model.addAttribute("orderList", orderList);
@@ -45,6 +45,27 @@ public class ShowOrderHistoryController {
 		return "order_history";
 	
 	}
+	
+//	@RequestMapping("/show-order-history")
+//	public String showOrderHistory2(Model model, @AuthenticationPrincipal LoginUser loginUser) {
+//		//管理者ユーザーのログインIDを渡す
+//		User user = loginUser.getUser();
+//		List<Order> orderList = service.showOrderHistory(user.getId());
+//		if (orderList.size() == 0 ) {
+//			model.addAttribute("message", "注文履歴がありません");
+//		}
+//		model.addAttribute("orderList", orderList);
+//		
+//		return "order_history";
+//	
+//	}
+	
+	
+	
+	
+	
+	
+	
 	
 //	@RequestMapping("/show-order-history")
 //	public String toOrderHistory(@AuthenticationPrincipal LoginUser loginUser,Model model) {

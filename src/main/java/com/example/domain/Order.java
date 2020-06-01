@@ -13,26 +13,26 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * @author fuka
  *
  */
-//@JsonPropertyOrder({"注文番号","注文日","利用者名","ステータス","合計金額"})
+@JsonPropertyOrder({"注文番号","注文日","利用者名","ステータス","合計金額"})
 public class Order {
 	/** ID */
 	private Integer id;
 	/** ユーザーID */
 	private Integer userId;
 	/** 注文状態 */
-//	@JsonProperty("ステータス")
+	@JsonProperty("ステータス")
 	private Integer status;
 	/** 合計金額 */
-//	@JsonProperty("合計金額")
+	@JsonProperty("合計金額")
 	private Integer totalPrice;
 	/** 注文日 */
-//	@JsonProperty("注文日")
+	@JsonProperty("注文日")
 	private Date orderDate;
 	/** 注文番号 */
-//	@JsonProperty("注文番号")
+	@JsonProperty("注文番号")
 	private String orderNumber;
 	/** 宛先氏名 */
-//	@JsonProperty("利用者名")
+	@JsonProperty("利用者名")
 	private String destinationName;
 	/** 宛先Eメール */
 	private String destinationEmail;
@@ -76,6 +76,22 @@ public class Order {
 		}
 		return totalPrice;
 	}
+	
+	/**
+	 * ステータスを文字列で返す.
+	 * @return 文字列ステータス
+	 */
+	public String getStringStatus() {
+		String stringStatus = null;
+		if (status == 1) {
+			stringStatus = "未入金";
+		} else if (status == 2) {
+			stringStatus = "入金済み";
+		}
+		return stringStatus;
+	}
+	
+	
 
 	public Integer getId() {
 		return id;
