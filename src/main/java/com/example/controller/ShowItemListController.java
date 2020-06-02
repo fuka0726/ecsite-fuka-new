@@ -1,12 +1,18 @@
 package com.example.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,7 +28,7 @@ import com.example.service.ShowItemListService;
  *
  */
 @Controller
-@RequestMapping("")
+@RequestMapping("/")
 public class ShowItemListController {
 	
 	@Autowired
@@ -52,8 +58,42 @@ public class ShowItemListController {
 	 * @param loginUser　
 	 * @return　商品一覧画面
 	 */
-	@RequestMapping("/showItemList")
-	public String showItemList(SearchForm form, Model model, String searchName, @AuthenticationPrincipal LoginUser loginUser) {
+	@RequestMapping("")
+	public String showItemList(SearchForm form, Model model, String searchName, HttpServletRequest request, @AuthenticationPrincipal LoginUser loginUser) {
+		
+		
+		//Cookieを取得
+		Cookie[] cookies = request.getCookies();
+		String itemName = "";
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("item")) {
+					itemName = cookie.getValue();
+				}
+			}
+		}
+		
+		//もし商品履歴があったら
+		String [] itemHistory = itemName.split("/");
+		if (!StringUtils.isEmpty(itemHistory[0])) {
+			List <String> itemHistoryArrayList = new ArrayList<> (Arrays.asList(itemHistory)); 
+			Collections.reverse(itemHistoryArrayList);
+			List <String> itemHistoryList = null;
+			
+			//商品が5個以上なら
+			if (itemHistoryArrayList.size() >= 6) {
+				itemHistoryList = new ArrayList<>();
+				for (int i = 0; i <= 4; i++) {
+					String item = itemHistoryArrayList.get(i);
+					itemHistoryList.add(item);
+				}
+			} else {
+				itemHistoryList = itemHistoryArrayList;
+			}
+			model.addAttribute("itemHistoryList" , itemHistoryList);
+		}
+		
+		
 		
 		List<Item> allItemList = showItemListService.showItemList();
 
@@ -96,6 +136,7 @@ public class ShowItemListController {
 			itemList = showItemListService.showItemList();
 			model.addAttribute("errormessage", "該当する商品がありません");
 		}				
+		
 		
 		//オートコンプリート
 		StringBuilder itemListForAutocomplete = showItemListService.getItemListForAutocomplete(allItemList);

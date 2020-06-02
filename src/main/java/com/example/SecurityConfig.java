@@ -46,14 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginPage("/tologin") //ログインする時のパス
 			.loginProcessingUrl("/login") //ログインボタンを押した際に遷移させるパス
 			.failureUrl("/tologin?error=true") //ログイン失敗時のパス
-			.defaultSuccessUrl("/showItemList", true) //デフォルトでログイン成功時に遷移させるパス
+			.defaultSuccessUrl("/", true) //デフォルトでログイン成功時に遷移させるパス
 			.usernameParameter("email")
 			.passwordParameter("password");
 		
 		http.logout() //ログアウトに関する設定
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout**")) //ログアウトする時のパス
 			.logoutSuccessUrl("/") //商品一覧に遷移
-			.deleteCookies("JSESSIONID") //CookieのセッションIDを削除
+//			.deleteCookies("JSESSIONID") //CookieのセッションIDを削除
 			.invalidateHttpSession(true); //セッションを無効
 	}
 	

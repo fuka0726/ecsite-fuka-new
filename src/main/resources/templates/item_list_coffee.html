@@ -85,7 +85,7 @@ $( function() {
 					</div>
 					<div class="panel-body">
 					<span th:text="${errormessage}"></span>
-						<form id="searchForm" method="post" action="item_list_coffee.html" class="form-horizontal" th:action="@{/showItemList}" th:object="${searchForm}">
+						<form id="searchForm" method="post" action="item_list_coffee.html" class="form-horizontal" th:action="@{/}" th:object="${searchForm}">
 							<div class="form-group">
 								<label for="name" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
@@ -106,7 +106,6 @@ $( function() {
 									<option value="3" th:field="*{sort}">Lサイズの価格が安い順</option>
 									<option value="4" th:field="*{sort}">Lサイズの価格が高い順</option>
 							</select>
-	
 							<div class="pager">
 								<span th:text="${nowPageNumber}+'ページ目表示中'" style="display: inline"></span>&nbsp;
 								<span th:each="pageNumber:${pageNumberList}">
@@ -115,10 +114,18 @@ $( function() {
 							</span>&nbsp;&nbsp;
 						</div>
 					</form>
+							
 					</div>
+	
 				</div>
 			</div>
+		<h4 th:if="${itemHistoryList}">最近見た商品</h4><br>
+			<span th:each="itemHistory:${itemHistoryList}">
+			<span th:text="${itemHistory}"></span><br>
+			</span>
 		</div>
+		
+		
 	<!-- <form id="search_form" th:action="@{/showItemList}" th:object="${searchForm}" method="post">
 		<select id="sort_select" name="sort" th:field="*{sort}"></select>
 	<select id="sort_select" name="sort">
